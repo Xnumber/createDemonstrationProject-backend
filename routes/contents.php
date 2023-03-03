@@ -2,8 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-require_once __DIR__.'/users.php';
-require_once __DIR__.'/contents.php';
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,6 +13,8 @@ require_once __DIR__.'/contents.php';
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/contents', 'ContentsController@index');
+Route::get('/contents/{id}', 'ContentsController@show');
+Route::post('/contents', 'ContentsController@store');
+Route::put('/contents/{id}', 'ContentsController@update');
+Route::delete('/contents/{id}', 'ContentsController@destroy');
