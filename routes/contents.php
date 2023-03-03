@@ -1,7 +1,8 @@
 <?php
 
+use App\Http\Controllers\ContentController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Middleware\CheckLoginMiddleware;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,7 +15,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/contents', 'ContentsController@index');
-Route::get('/contents/{id}', 'ContentsController@show');
 Route::post('/contents', 'ContentsController@store');
 Route::put('/contents/{id}', 'ContentsController@update');
 Route::delete('/contents/{id}', 'ContentsController@destroy');
+
+// Route::middleware('auth')->group(function () {
+	// Route::get('/contents/{id}', [ContentController::class, 'show']);
+    // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
+
+Route::get('/contents/{id}', [ContentController::class, 'show'])->middleware(CheckLoginMiddleware::class);
