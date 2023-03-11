@@ -10,7 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 class Content extends Model
 {
     use HasFactory, HasApiTokens;
-
+    protected $table = 'contents';
      /**
      * The attributes that are mass assignable.
      *
@@ -22,5 +22,10 @@ class Content extends Model
         'quantity',
         'price',
         'image'
+    ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
     ];
 }

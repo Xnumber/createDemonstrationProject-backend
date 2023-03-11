@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -14,6 +15,7 @@ return new class extends Migration
         Schema::create('contents', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('type');
             $table->integer('quantity');
             $table->integer('price');
             $table->string("image");
