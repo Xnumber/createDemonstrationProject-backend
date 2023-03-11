@@ -14,6 +14,23 @@ use Inertia\Response;
 
 class AuthenticatedSessionController extends Controller
 {
+    public function checkLogin()
+    {
+        // return 123;
+        if(Auth::check()) {
+            $user = Auth::getUser();
+            // dd($user);
+            return response()->json([
+                "status" => true,
+                "user" => $user
+            ]);
+        } else {
+            return response()->json([
+				"status" => false,
+				"errors" => "please log in."
+			]);
+        }
+    }
     /**
      * Display the login view.
      */
@@ -28,19 +45,48 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    // public function store(LoginRequest $request): RedirectResponse
+    // public function store(LoginRequest $request)
+    // {
+    //     $request->authenticate();
+
+    //     $request->session()->regenerate();
+
+    //     // return redirect()->intended(RouteServiceProvider::HOME);
+    //     return response()->json([
+    //         "status" => true,
+    //         "errors" => "welcome"
+    //     ]);
+    // }
+
+    // public function authenticate(Request $request): RedirectResponse
+    public function store(Request $request)
     {
-        $request->authenticate();
-
-        $request->session()->regenerate();
-
-        return redirect()->intended(RouteServiceProvider::HOME);
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+        
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            $user = Auth::getUser();
+            return response()->json([
+                "status" => true,
+                "user" => $user
+            ]);
+        } else {
+            return response()->json([
+                "status" => true,
+                "errors" => "The provided credentials do not match our records."
+            ]);
+        }
     }
 
     /**
      * Destroy an authenticated session.
      */
-    public function destroy(Request $request): RedirectResponse
+    // public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request)
     {
         Auth::guard('web')->logout();
 
@@ -48,6 +94,9 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        // return redirect('/');
+        return response()->json([
+            "status" => true,
+        ]);
     }
 }
