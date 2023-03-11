@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ContentController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\CheckLoginMiddleware;
+// use App\Http\Middleware\CheckLoginMiddleware;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,16 +14,13 @@ use App\Http\Middleware\CheckLoginMiddleware;
 |
 */
 
-Route::get('/contents', 'ContentsController@index');
-Route::post('/contents', 'ContentsController@store');
-Route::put('/contents/{id}', 'ContentsController@update');
-Route::delete('/contents/{id}', 'ContentsController@destroy');
 
-// Route::middleware('auth')->group(function () {
-	// Route::get('/contents/{id}', [ContentController::class, 'show']);
-    // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-// });
-
-Route::get('/contents/{id}', [ContentController::class, 'show'])->middleware(CheckLoginMiddleware::class);
+// Route::middleware(CheckLoginMiddleware::class)->group(function () {
+Route::middleware("auth:sanctum")->group(function () {
+    Route::post('/api/contents', [ContentController::class, 'store']);
+    Route::post('/api/contents/upload', [ContentController::class, 'upload']);
+    Route::get('/api/contents', [ContentController::class, 'index']);
+    Route::put('/api/contents/{id}', [ContentController::class, 'update']);
+    Route::get('/api/contents/{id}', [ContentController::class, 'show']);
+    Route::delete('/api/contents/{id}', [ContentController::class, 'destroy']);
+});
