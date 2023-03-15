@@ -33,9 +33,7 @@ class ContentController extends Controller
                 'status' => "success",
                 'data' => $contents
             ]);
-                
         }
-        
     }
 
     /**
@@ -67,7 +65,7 @@ class ContentController extends Controller
         // 將圖片存儲到指定的磁片上
         $paths = [];
         foreach ($images as $image) {
-            $path = $image->store('public/image');
+            $path = $image->store('public/image', env('STORAGE_DRIVER'));
             $paths[] = $path;
         }
         $content = Content::create([
@@ -110,14 +108,14 @@ class ContentController extends Controller
      
         if($request->hasFile('image')) {
             $originImagePath = Content::find($id)->image;
-            Storage::delete($originImagePath);
+            Storage::disk(env('STORAGE_DRIVER'))->delete($originImagePath);
             
             $images = $request->file('image');
 
             // 將圖片存儲到指定的磁片上
             $paths = [];
             foreach ($images as $image) {
-                $path = $image->store('public/image');
+                $path = $image->store('public/image', env('STORAGE_DRIVER'));
                 $paths[] = $path;
             }
             $target->update([
@@ -147,7 +145,11 @@ class ContentController extends Controller
      */
     public function destroy(Content $content, $id)
     {
-        $target = $content->where('id', $id)->delete();
+        $target = Content::find($id);
+        $imagePath = $target->image;
+        Storage::disk(env('STORAGE_DRIVER'))->delete($imagePath);
+        $target->delete();
+
         return response()->json([
             'status' => "success",
         ]);
