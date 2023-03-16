@@ -1,7 +1,7 @@
 <?php
 // use App\Http\Controllers\ProfileController;
 // use Illuminate\Foundation\Application;
-// use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Route;
 // use Inertia\Inertia;
 /*
 |--------------------------------------------------------------------------
@@ -15,3 +15,10 @@
 */
 require_once __DIR__.'/contents.php';
 require __DIR__.'/auth.php';
+
+Route::view('/', 'index');
+Route::fallback(function () {
+    return view("index");
+});
+// Route::get("")
+// Route::
