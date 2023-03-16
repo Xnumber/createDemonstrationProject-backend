@@ -8,7 +8,7 @@
 		<style>@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&display=swap');</style>
 		<script crossorigin src="https://unpkg.com/react@^18.2.0/umd/react.production.min.js"></script>
 		<script crossorigin src="https://unpkg.com/react-dom@^18.2.0/umd/react-dom.production.min.js"></script>
-		<script defer="defer" src={{asset("assets/main.js")}}></script>
+		<script defer="defer" src={{secure_asset("assets/main.js")}}></script>
     </head>
     <body>
        <div id="root"></div>
