@@ -9,6 +9,7 @@
 		<script crossorigin src="https://unpkg.com/react@^18.2.0/umd/react.production.min.js"></script>
 		<script crossorigin src="https://unpkg.com/react-dom@^18.2.0/umd/react-dom.production.min.js"></script>
 		<script defer="defer" src={{secure_asset("assets/main.js")}}></script>
+        <style>#root{height:100%;}</style>
     </head>
     <body>
        <div id="root"></div>
